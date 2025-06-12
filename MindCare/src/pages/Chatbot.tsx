@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -98,7 +97,7 @@ const Chatbot = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
-            <Link to="/dashboard" className="mr-4">
+            <Link to="/" className="mr-4">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Kembali
@@ -113,6 +112,9 @@ const Chatbot = () => {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Link to="/" className="block mb-4 text-primary hover:underline">
+           Kembali ke Beranda
+        </Link>
         <Card className="h-[600px] flex flex-col">
           <CardHeader>
             <CardTitle className="flex items-center">
