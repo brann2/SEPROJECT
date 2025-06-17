@@ -1,3 +1,7 @@
+#secrate 
+.env
+
+
 # Logs
 logs
 *.log

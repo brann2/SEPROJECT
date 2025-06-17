@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +43,7 @@ const Journal = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
-            <Link to="/dashboard" className="mr-4">
+            <Link to="/" className="mr-4">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Kembali
@@ -56,6 +55,9 @@ const Journal = () => {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Link to="/" className="block mb-4 text-primary hover:underline">
+           Kembali ke Beranda
+        </Link>
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900">Catatan Harian Saya</h2>
           <Button onClick={() => setShowForm(!showForm)}>

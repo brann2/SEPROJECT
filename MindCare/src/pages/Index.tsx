@@ -1,10 +1,55 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Heart, Shield, Users, Clock } from "lucide-react";
+import { Heart, Shield, Users, Clock, LogOut } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useLocation } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
+  const [userName, setUserName] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (location.state?.loginSuccess) {
+      toast({
+        title: "Berhasil login",
+        description: "Selamat datang kembali!",
+      });
+      // Hapus state agar toast tidak muncul lagi saat refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state, toast]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        // Ambil nama user dari tabel users
+        const { data: profile } = await supabase
+          .from('users')
+          .select('name')
+          .eq('id', session.user.id)
+          .single();
+        setUserName(profile?.name || session.user.email);
+      }
+      setLoading(false);
+    };
+    fetchProfile();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUserName(null);
+    toast({
+      title: "Berhasil logout",
+      description: "Anda telah keluar dari akun.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -16,12 +61,26 @@ const Index = () => {
               <h1 className="text-2xl font-bold text-primary">MindCare</h1>
             </div>
             <div className="flex space-x-4">
-              <Link to="/login">
-                <Button variant="ghost">Masuk</Button>
-              </Link>
-              <Link to="/register">
-                <Button>Daftar</Button>
-              </Link>
+              {loading ? null : userName ? (
+                <>
+                  <span className="font-semibold text-primary">Selamat datang, {userName}!</span>
+                  <button
+                    onClick={handleLogout}
+                    className="ml-4 flex items-center text-gray-600 hover:text-primary font-medium"
+                  >
+                    <LogOut className="h-4 w-4 mr-1" /> Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <Button variant="ghost">Masuk</Button>
+                  </Link>
+                  <Link to="/register">
+                    <Button>Daftar</Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

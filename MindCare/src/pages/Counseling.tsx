@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -57,7 +56,7 @@ const Counseling = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-16">
-            <Link to="/dashboard" className="mr-4">
+            <Link to="/" className="mr-4">
               <Button variant="ghost" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Kembali
@@ -69,6 +68,9 @@ const Counseling = () => {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Link to="/" className="block mb-4 text-primary hover:underline">
+           Kembali ke Beranda
+        </Link>
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Pilih Psikolog</h2>
           <p className="text-gray-600">Konsultasi dengan psikolog profesional yang berpengalaman</p>
