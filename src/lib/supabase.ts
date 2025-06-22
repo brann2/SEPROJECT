@@ -4,31 +4,43 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
+// Jika environment variables tidak ada, gunakan placeholder untuk development
+const fallbackUrl = 'https://placeholder.supabase.co';
+const fallbackKey = 'placeholder_key';
 
-// Create Supabase client with explicit configuration
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
-  },
-  db: {
-    schema: 'public'
-  },
-  global: {
-    headers: {
-      'Content-Type': 'application/json'
+// Create Supabase client with fallback values
+export const supabase = createClient(
+  supabaseUrl || fallbackUrl, 
+  supabaseAnonKey || fallbackKey, 
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    },
+    db: {
+      schema: 'public'
+    },
+    global: {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
   }
-});
+);
 
 // Test the connection immediately
 async function testConnection() {
   try {
     console.log('Testing Supabase connection...')
+    
+    // Jika environment variables tidak ada, skip test
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn('Supabase environment variables not found. Using fallback configuration.');
+      console.warn('Please create a .env file with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+      return;
+    }
+    
     // Test with auth first
     const { data: authData, error: authError } = await supabase.auth.getSession()
     if (authError) {
