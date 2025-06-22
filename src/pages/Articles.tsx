@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Search, Bookmark, Clock, User } from "lucide-react";
+import { ArrowLeft, Search, Bookmark, Clock, User, Home } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Articles = () => {
@@ -81,8 +81,17 @@ const Articles = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
-            <h1 className="text-2xl font-bold text-primary">Artikel & Tips</h1>
+          <div className="flex items-center h-16 relative">
+            <Link to="/" className="z-10 mt-4">
+              <button
+                className="flex items-center gap-2 px-4 py-2 bg-white/90 text-primary rounded-full shadow-md border border-gray-200 hover:bg-blue-50 hover:scale-105 transition-all duration-150"
+                style={{ minWidth: 0 }}
+              >
+                <Home size={20} />
+                <span className="font-medium">Beranda</span>
+              </button>
+            </Link>
+            <h1 className="text-2xl font-bold text-primary mx-auto">Artikel & Tips</h1>
           </div>
         </div>
       </header>
