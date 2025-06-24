@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import { Bot, Send, User, X } from "lucide-react";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,17 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [showChatbot, setShowChatbot] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    {
+      id: 1,
+      text: "Halo! Saya adalah AI Assistant untuk kesehatan mental. Silakan tanya seputar kesehatan mental.",
+      sender: "bot",
+      timestamp: new Date()
+    }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     checkSession();
@@ -25,11 +37,14 @@ const Login = () => {
     try {
       const { data: { session }, error } = await supabase.auth.getSession();
       if (error) throw error;
-      
       if (session) {
-        navigate("/dashboard");
+        setIsLoggedIn(true);
+        // navigate("/dashboard"); // opsional, jika ingin redirect otomatis
+      } else {
+        setIsLoggedIn(false);
       }
     } catch (error) {
+      setIsLoggedIn(false);
       console.error("Connection check error:", error);
     }
   };
@@ -92,6 +107,7 @@ const Login = () => {
           description: "Selamat datang kembali!",
         });
 
+        setIsLoggedIn(true);
         navigate("/", { state: { loginSuccess: true } });
       }
     } catch (error: any) {
@@ -136,6 +152,73 @@ const Login = () => {
     }
   };
 
+  // Chatbot logic (mental health only)
+  const dailyTips = [
+    "Cobalah teknik pernapasan 4-7-8: Tarik napas selama 4 detik, tahan 7 detik, hembuskan 8 detik.",
+    "Luangkan 5 menit untuk menulis 3 hal yang Anda syukuri hari ini.",
+    "Lakukan peregangan ringan untuk mengurangi ketegangan di tubuh.",
+    "Dengarkan musik yang menenangkan selama 10 menit.",
+    "Jalan kaki selama 15 menit di luar ruangan untuk vitamin D alami."
+  ];
+  const affirmations = [
+    "Anda lebih kuat dari yang Anda pikirkan.",
+    "Setiap hari adalah kesempatan baru untuk tumbuh.",
+    "Anda layak mendapatkan kebahagiaan dan kedamaian.",
+    "Perasaan ini akan berlalu, dan Anda akan melewatinya.",
+    "Anda sudah melakukan yang terbaik dengan kemampuan yang Anda miliki."
+  ];
+  const responses = {
+    "sedih": "Saya memahami Anda sedang merasa sedih. Perasaan ini normal dan akan berlalu. Cobalah untuk menarik napas dalam-dalam dan ingatlah bahwa Anda tidak sendirian.",
+    "cemas": "Kecemasan bisa sangat mengganggu. Cobalah teknik grounding 5-4-3-2-1: Sebutkan 5 hal yang bisa Anda lihat, 4 hal yang bisa Anda sentuh, 3 hal yang bisa Anda dengar, 2 hal yang bisa Anda cium, dan 1 hal yang bisa Anda rasakan.",
+    "stres": "Stres adalah respons alami tubuh. Cobalah untuk mengidentifikasi sumber stres dan ambil istirahat sejenak. Pernapasan dalam bisa membantu menenangkan sistem saraf Anda.",
+    "tips": dailyTips[Math.floor(Math.random() * dailyTips.length)],
+    "afirmasi": affirmations[Math.floor(Math.random() * affirmations.length)]
+  };
+  function isMentalHealthQuestion(msg) {
+    const keywords = ["sedih", "cemas", "stres", "tips", "afirmasi", "mental", "emosi", "perasaan", "psikolog", "kesehatan jiwa", "depresi", "cemas", "tertekan", "down", "khawatir", "motivasi", "dukungan", "kesehatan mental"];
+    return keywords.some(k => msg.toLowerCase().includes(k));
+  }
+  const generateResponse = (message) => {
+    if (!isMentalHealthQuestion(message)) {
+      return "Maaf, chatbot ini hanya dapat menjawab pertanyaan seputar kesehatan mental. Silakan tanyakan hal terkait kesehatan mental.";
+    }
+    const lowerMessage = message.toLowerCase();
+    if (lowerMessage.includes("sedih") || lowerMessage.includes("down")) {
+      return responses.sedih;
+    } else if (lowerMessage.includes("cemas") || lowerMessage.includes("khawatir")) {
+      return responses.cemas;
+    } else if (lowerMessage.includes("stres") || lowerMessage.includes("tertekan")) {
+      return responses.stres;
+    } else if (lowerMessage.includes("tips") || lowerMessage.includes("saran")) {
+      return responses.tips;
+    } else if (lowerMessage.includes("afirmasi") || lowerMessage.includes("motivasi")) {
+      return responses.afirmasi;
+    } else {
+      return "Terima kasih telah berbagi. Saya di sini untuk mendengarkan. Apakah ada yang spesifik ingin Anda bicarakan? Saya bisa memberikan tips atau afirmasi positif.";
+    }
+  };
+  const handleSendChat = (e) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+    const userMessage = {
+      id: chatMessages.length + 1,
+      text: chatInput,
+      sender: "user",
+      timestamp: new Date()
+    };
+    setChatMessages(prev => [...prev, userMessage]);
+    setTimeout(() => {
+      const botResponse = {
+        id: chatMessages.length + 2,
+        text: generateResponse(chatInput),
+        sender: "bot",
+        timestamp: new Date()
+      };
+      setChatMessages(prev => [...prev, botResponse]);
+    }, 800);
+    setChatInput("");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-8">
       <Card className="w-full max-w-md">
@@ -177,10 +260,6 @@ const Login = () => {
               {isLoading ? "Memproses..." : "Masuk"}
             </Button>
           </form>
-
-          <Link to="/" className="block mt-4 text-center text-primary hover:underline">
-             Kembali ke Beranda
-          </Link>
 
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
@@ -236,6 +315,45 @@ const Login = () => {
           </div>
         </CardContent>
       </Card>
+      {/* Floating Chatbot Button & Popup (only after login) */}
+      {isLoggedIn && (
+        <>
+          <button
+            className="fixed bottom-8 right-8 z-50 bg-primary text-white rounded-full p-4 shadow-lg hover:bg-primary/90"
+            onClick={() => setShowChatbot(true)}
+            aria-label="Buka Chatbot"
+          >
+            <Bot className="h-6 w-6" />
+          </button>
+          {showChatbot && (
+            <div className="fixed bottom-24 right-8 z-50 w-80 bg-white rounded-xl shadow-2xl border flex flex-col">
+              <div className="flex items-center justify-between p-3 border-b">
+                <span className="font-bold text-primary flex items-center"><Bot className="h-5 w-5 mr-2" />Chatbot Kesehatan Mental</span>
+                <button onClick={() => setShowChatbot(false)}><X className="h-5 w-5" /></button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-3 space-y-2" style={{maxHeight: 320}}>
+                {chatMessages.map((msg) => (
+                  <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[75%] p-2 rounded-lg text-sm ${msg.sender === 'user' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-900'}`}>
+                      {msg.text}
+                      <div className="text-[10px] opacity-60 mt-1 text-right">{msg.timestamp.toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <form onSubmit={handleSendChat} className="flex border-t p-2 gap-2">
+                <Input
+                  value={chatInput}
+                  onChange={e => setChatInput(e.target.value)}
+                  placeholder="Tanya seputar kesehatan mental..."
+                  className="flex-1"
+                />
+                <Button type="submit" size="icon"><Send className="h-4 w-4" /></Button>
+              </form>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

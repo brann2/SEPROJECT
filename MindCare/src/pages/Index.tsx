@@ -26,13 +26,15 @@ const Index = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session && session.user) {
         // Ambil nama user dari tabel users
         const { data: profile } = await supabase
-          .from('users')
-          .select('name')
-          .eq('id', session.user.id)
+          .from("users")
+          .select("name")
+          .eq("id", session.user.id)
           .single();
         setUserName(profile?.name || session.user.email);
       }
@@ -63,7 +65,9 @@ const Index = () => {
             <div className="flex space-x-4">
               {loading ? null : userName ? (
                 <>
-                  <span className="font-semibold text-primary">Selamat datang, {userName}!</span>
+                  <span className="font-semibold text-primary">
+                    Selamat datang, {userName}!
+                  </span>
                   <button
                     onClick={handleLogout}
                     className="ml-4 flex items-center text-gray-600 hover:text-primary font-medium"
@@ -94,15 +98,24 @@ const Index = () => {
             <span className="text-primary block">Adalah Prioritas</span>
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Platform terpercaya untuk mendampingi perjalanan kesehatan mental Anda dengan 
-            dukungan psikolog profesional, jurnal harian, dan AI assistant yang siap membantu 24/7.
+            Platform terpercaya untuk mendampingi perjalanan kesehatan mental
+            Anda dengan dukungan psikolog profesional, jurnal harian, dan AI
+            assistant yang siap membantu 24/7.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/register">
-              <Button size="lg" className="w-full sm:w-auto">
-                Mulai Sekarang - Gratis
-              </Button>
-            </Link>
+            {userName ? (
+              <Link to="/checkup">
+                <Button size="lg" className="w-full sm:w-auto">
+                  Cek Sekarang
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/register">
+                <Button size="lg" className="w-full sm:w-auto">
+                  Mulai Sekarang - Gratis
+                </Button>
+              </Link>
+            )}
             <Link to="/articles">
               <Button variant="outline" size="lg" className="w-full sm:w-auto">
                 Baca Artikel
@@ -120,7 +133,8 @@ const Index = () => {
               Fitur Lengkap untuk Kesehatan Mental Anda
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Kami menyediakan berbagai layanan komprehensif untuk mendukung kesehatan mental Anda
+              Kami menyediakan berbagai layanan komprehensif untuk mendukung
+              kesehatan mental Anda
             </p>
           </div>
 
@@ -135,7 +149,8 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Tulis refleksi dan catatan harian untuk memahami perasaan Anda lebih baik
+                    Tulis refleksi dan catatan harian untuk memahami perasaan
+                    Anda lebih baik
                   </p>
                 </CardContent>
               </Card>
@@ -151,7 +166,8 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Chat dengan psikolog profesional berpengalaman melalui platform yang aman
+                    Chat dengan psikolog profesional berpengalaman melalui
+                    platform yang aman
                   </p>
                 </CardContent>
               </Card>
@@ -167,7 +183,8 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Akses ribuan artikel kesehatan mental yang ditulis oleh ahli terpercaya
+                    Akses ribuan artikel kesehatan mental yang ditulis oleh ahli
+                    terpercaya
                   </p>
                 </CardContent>
               </Card>
@@ -183,7 +200,8 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Dapatkan tips harian dan afirmasi positif dari AI yang siap membantu 24/7
+                    Dapatkan tips harian dan afirmasi positif dari AI yang siap
+                    membantu 24/7
                   </p>
                 </CardContent>
               </Card>
@@ -193,28 +211,52 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h3 className="text-3xl font-bold text-gray-900 mb-4">
-            Siap Memulai Perjalanan Kesehatan Mental Anda?
-          </h3>
-          <p className="text-gray-600 mb-8">
-            Bergabunglah dengan ribuan pengguna yang telah merasakan manfaat platform kami
-          </p>
-          <Link to="/register">
-            <Button size="lg">Daftar Sekarang</Button>
-          </Link>
-        </div>
-      </section>
+      {userName ? (
+        <section className="py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 className="text-3xl font-bold text-primary mb-4">
+              Selamat datang di MindCare, {userName}!
+            </h3>
+            <p className="text-gray-700 mb-4 text-lg">
+              Terima kasih telah mempercayakan perjalanan kesehatan mental Anda
+              bersama kami. Jangan ragu untuk mengeksplorasi fitur-fitur seperti
+              Jurnal Harian, Konseling Online, Artikel & Tips, serta AI
+              Assistant yang siap mendukung Anda kapan saja.
+            </p>
+            <p className="text-gray-600 mb-8">
+              Ingat, setiap langkah kecil adalah kemajuan. Semangat untuk terus
+              menjaga kesehatan mental Anda!
+            </p>
+          </div>
+        </section>
+      ) : (
+        <section className="py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              Siap Memulai Perjalanan Kesehatan Mental Anda?
+            </h3>
+            <p className="text-gray-600 mb-8">
+              Bergabunglah dengan ribuan pengguna yang telah merasakan manfaat
+              platform kami
+            </p>
+            <Link to="/register">
+              <Button size="lg">Daftar Sekarang</Button>
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Disclaimer */}
       <section className="py-8 bg-yellow-50 border-t border-yellow-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h4 className="font-semibold text-yellow-800 mb-2">Penting untuk Diketahui</h4>
+            <h4 className="font-semibold text-yellow-800 mb-2">
+              Penting untuk Diketahui
+            </h4>
             <p className="text-sm text-yellow-700">
-              Platform ini tidak menggantikan diagnosis atau pengobatan medis profesional. 
-              Untuk kondisi darurat atau krisis psikologis berat, segera hubungi layanan darurat atau rumah sakit terdekat.
+              Platform ini tidak menggantikan diagnosis atau pengobatan medis
+              profesional. Untuk kondisi darurat atau krisis psikologis berat,
+              segera hubungi layanan darurat atau rumah sakit terdekat.
             </p>
           </div>
         </div>
@@ -227,7 +269,10 @@ const Index = () => {
             <Heart className="h-6 w-6 mr-2" />
             <span className="text-lg font-semibold">MindCare</span>
           </div>
-          <p className="text-gray-400">© 2024 MindCare. Semua hak dilindungi. Versi awal - Bahasa Indonesia.</p>
+          <p className="text-gray-400">
+            © 2024 MindCare. Semua hak dilindungi. Versi awal - Bahasa
+            Indonesia.
+          </p>
         </div>
       </footer>
     </div>

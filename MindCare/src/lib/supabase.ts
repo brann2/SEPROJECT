@@ -1,19 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Get environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-// Log environment variables for debugging
-console.log('Supabase URL:', supabaseUrl)
-console.log('Supabase Anon Key:', supabaseAnonKey ? 'Present' : 'Missing')
+// Ambil dari .env (Vite env)
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase environment variables:', {
-    url: supabaseUrl,
-    key: supabaseAnonKey ? 'Present' : 'Missing'
-  })
-  throw new Error('Missing Supabase environment variables')
+  throw new Error('Missing Supabase environment variables');
 }
 
 // Create Supabase client with explicit configuration
@@ -31,7 +23,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       'Content-Type': 'application/json'
     }
   }
-})
+});
 
 // Test the connection immediately
 async function testConnection() {

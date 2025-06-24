@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, ArrowLeft, Plus } from "lucide-react";
+import { Calendar, ArrowLeft, Plus, Home } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Journal = () => {
@@ -42,22 +42,22 @@ const Journal = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
-            <Link to="/" className="mr-4">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Kembali
-              </Button>
+          <div className="flex items-center h-16 relative">
+            <Link to="/" className="z-10 mt-4">
+              <button
+                className="flex items-center gap-2 px-4 py-2 bg-white/90 text-primary rounded-full shadow-md border border-gray-200 hover:bg-blue-50 hover:scale-105 transition-all duration-150"
+                style={{ minWidth: 0 }}
+              >
+                <Home size={20} />
+                <span className="font-medium">Beranda</span>
+              </button>
             </Link>
-            <h1 className="text-2xl font-bold text-primary">Jurnal Harian</h1>
+            <h1 className="text-2xl font-bold text-primary mx-auto">Jurnal Harian</h1>
           </div>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link to="/" className="block mb-4 text-primary hover:underline">
-           Kembali ke Beranda
-        </Link>
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900">Catatan Harian Saya</h2>
           <Button onClick={() => setShowForm(!showForm)}>
