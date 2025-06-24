@@ -80,7 +80,16 @@ const Register = () => {
           ]);
 
         if (profileError) {
-          console.error('Profile creation error:', profileError);
+          console.error('Profile creation error:', profileError, JSON.stringify(profileError));
+          if (String(profileError.code) === '23505' || (profileError.message && profileError.message.toLowerCase().includes('duplicate key'))) {
+            toast({
+              title: "Registrasi gagal",
+              description: "Email sudah terdaftar. Silakan gunakan email lain atau login jika sudah memiliki akun.",
+              variant: "destructive",
+            });
+            setIsLoading(false);
+            return;
+          }
           throw new Error('Gagal membuat profil pengguna');
         }
 
@@ -92,13 +101,22 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error: any) {
-      console.error("Registration error:", error);
+      console.error("Registration error:", error, JSON.stringify(error));
       let errorMessage = "Terjadi kesalahan saat mendaftar";
       
-      if (error.message.includes("already registered")) {
-        errorMessage = "Email sudah terdaftar";
-      } else if (error.message.includes("password")) {
+      const msg = error?.message?.toLowerCase() || "";
+      if (
+        msg.includes("already registered") ||
+        msg.includes("already exists") ||
+        msg.includes("user already registered") ||
+        msg.includes("user already exists") ||
+        (error?.status === 400 && msg.includes("user"))
+      ) {
+        errorMessage = "Email sudah terdaftar. Silakan gunakan email lain atau login jika sudah memiliki akun.";
+      } else if (msg.includes("password")) {
         errorMessage = "Password harus minimal 6 karakter";
+      } else if (msg.includes("invalid email")) {
+        errorMessage = "Format email tidak valid";
       }
       
       toast({
@@ -241,10 +259,6 @@ const Register = () => {
               </Link>
             </p>
           </div>
-
-          <Link to="/" className="block mt-4 text-center text-primary hover:underline">
-             Kembali ke Beranda
-          </Link>
         </CardContent>
       </Card>
     </div>
