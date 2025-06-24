@@ -180,7 +180,7 @@ const Chatbot = () => {
     }
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
@@ -193,15 +193,35 @@ const Chatbot = () => {
 
     setMessages((prev) => [...prev, userMessage]);
 
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/ai-checkup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: inputMessage }),
+      });
+      const data = await res.json();
+      const aiResponse =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        data?.choices?.[0]?.message?.content ||
+        "Tidak ada jawaban dari AI.";
       const botResponse = {
         id: Date.now() + 1,
-        text: generateResponse(inputMessage),
+        text: aiResponse,
         sender: "bot" as const,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
+    } catch (err: any) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 2,
+          text: "Gagal mendapatkan jawaban dari AI: " + (err.message || err),
+          sender: "bot" as const,
+          timestamp: new Date(),
+        },
+      ]);
+    }
 
     setInputMessage("");
   };

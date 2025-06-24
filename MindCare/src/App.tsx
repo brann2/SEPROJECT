@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import AuthCallback from "./pages/AuthCallback";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Checkup from "./pages/Checkup";
+import ArticleDetail from "./pages/ArticleDetail";
 
 const queryClient = new QueryClient();
 
@@ -27,12 +28,41 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/journal" element={<ProtectedRoute><Journal /></ProtectedRoute>} />
+          <Route
+            path="/journal"
+            element={
+              <ProtectedRoute>
+                <Journal />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/articles" element={<Articles />} />
-          <Route path="/counseling" element={<ProtectedRoute><Counseling /></ProtectedRoute>} />
-          <Route path="/chatbot" element={<ProtectedRoute><Chatbot /></ProtectedRoute>} />
+          <Route
+            path="/counseling"
+            element={
+              <ProtectedRoute>
+                <Counseling />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chatbot"
+            element={
+              <ProtectedRoute>
+                <Chatbot />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/auth/callback" element={<AuthCallback />} />
-          <Route path="/checkup" element={<ProtectedRoute><Checkup /></ProtectedRoute>} />
+          <Route
+            path="/checkup"
+            element={
+              <ProtectedRoute>
+                <Checkup />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/article/:id" element={<ArticleDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

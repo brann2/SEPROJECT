@@ -20,8 +20,8 @@ const Articles = () => {
       category: "Kecemasan",
       readTime: "5 menit",
       publishDate: "2024-01-10",
-      content:
-        "Kecemasan di tempat kerja adalah hal yang wajar dan banyak dialami...",
+      content: `Kecemasan di tempat kerja adalah hal yang umum dialami banyak orang. Penyebabnya bisa beragam, mulai dari tekanan deadline, hubungan dengan rekan kerja, hingga tuntutan atasan. Untuk mengatasinya, penting untuk mengenali pemicu kecemasan, mengatur waktu dengan baik, dan tidak ragu untuk berkomunikasi secara terbuka dengan atasan atau HRD jika beban kerja terasa berlebihan. Selain itu, praktik mindfulness, teknik pernapasan dalam, dan menjaga keseimbangan antara pekerjaan dan kehidupan pribadi sangat membantu. Jika kecemasan terus berlanjut dan mengganggu produktivitas, pertimbangkan untuk berkonsultasi dengan profesional kesehatan mental.`,
+      url: "https://www.halodoc.com/artikel/ini-cara-mengatasi-stres-di-tempat-kerja",
     },
     {
       id: 2,
@@ -32,8 +32,8 @@ const Articles = () => {
       category: "Self-Esteem",
       readTime: "7 menit",
       publishDate: "2024-01-08",
-      content:
-        "Self-esteem atau harga diri adalah penilaian kita terhadap diri sendiri...",
+      content: `Self-esteem atau harga diri adalah penilaian seseorang terhadap dirinya sendiri. Self-esteem yang sehat membuat seseorang lebih percaya diri, mampu menghadapi tantangan, dan tidak mudah terpengaruh oleh penilaian negatif orang lain. Cara membangun self-esteem antara lain: mengenali kelebihan diri, menerima kekurangan, menetapkan tujuan yang realistis, dan menghindari membandingkan diri dengan orang lain. Dukungan dari lingkungan sekitar juga sangat penting. Jika merasa sulit membangun self-esteem, cobalah berbicara dengan konselor atau psikolog.`,
+      url: "https://hellosehat.com/mental/mental-lainnya/cara-meningkatkan-self-esteem/",
     },
     {
       id: 3,
@@ -44,8 +44,8 @@ const Articles = () => {
       category: "Burnout",
       readTime: "6 menit",
       publishDate: "2024-01-05",
-      content:
-        "Burnout adalah kondisi kelelahan fisik, emosional, dan mental...",
+      content: `Burnout adalah kondisi kelelahan fisik, emosional, dan mental akibat stres berkepanjangan, terutama di lingkungan kerja. Tanda-tandanya meliputi kelelahan ekstrem, kehilangan motivasi, dan penurunan kinerja. Untuk mencegah burnout, penting untuk mengenali batas kemampuan diri, mengambil waktu istirahat yang cukup, dan melakukan aktivitas yang menyenangkan di luar pekerjaan. Jangan ragu untuk meminta bantuan atau berbagi beban dengan rekan kerja. Jika burnout sudah terjadi, konsultasi dengan profesional sangat dianjurkan.`,
+      url: "https://www.alodokter.com/burnout-syndrome",
     },
     {
       id: 4,
@@ -56,8 +56,8 @@ const Articles = () => {
       category: "Mindfulness",
       readTime: "8 menit",
       publishDate: "2024-01-03",
-      content:
-        "Mindfulness adalah praktik memusatkan perhatian pada saat ini...",
+      content: `Mindfulness adalah praktik memusatkan perhatian pada saat ini secara sadar dan tanpa menghakimi. Teknik ini terbukti efektif mengurangi stres dan meningkatkan kesejahteraan mental. Untuk memulai mindfulness, luangkan waktu beberapa menit setiap hari untuk duduk tenang, fokus pada napas, dan sadari sensasi tubuh serta pikiran yang muncul. Jika pikiran melayang, kembalikan fokus ke napas. Latihan rutin akan membuat mindfulness menjadi kebiasaan yang bermanfaat dalam kehidupan sehari-hari.`,
+      url: "https://www.halodoc.com/artikel/teknik-mindfulness-untuk-mengurangi-stres",
     },
   ];
 
