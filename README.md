@@ -26,7 +26,6 @@ Ciri pengguna:
 - Tersedia fitur journaling harian untuk mencatat suasana hati dan refleksi pribadi.
 - Pengguna dapat mengakses layanan konsultasi daring (chat) dengan psikolog.
 - Sistem mendukung fitur chatbot (chatbot interaktif) untuk menjawab pertanyaan umum, memberikan tips harian, dan mendampingi pengguna secara otomatis.
-- Pengguna dapat melaporkan konten atau interaksi yang melanggar etika atau ketentuan.
 
 ## 4. Kebutuhan Non-Fungsional
 - **Keamanan**: Semua data pribadi pengguna disimpan secara terenkripsi menggunakan standar industri.
