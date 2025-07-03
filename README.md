@@ -24,7 +24,7 @@ Ciri pengguna:
 - Tersedia fitur self-assessment untuk mengevaluasi kondisi emosional (depresi, kecemasan, burnout, dll).
 - Pengguna dapat mengakses artikel seputar kesehatan mental.
 - Tersedia fitur journaling harian untuk mencatat suasana hati dan refleksi pribadi.
-- Pengguna dapat mengakses layanan konsultasi chat dengan psikolog.
+- Pengguna dapat booking jadwal dengan psikolog tersertifikasi.
 - Sistem mendukung fitur chatbot (chatbot interaktif) untuk menjawab pertanyaan umum, memberikan tips harian, dan mendampingi pengguna secara otomatis.
 
 ## 4. Kebutuhan Non-Fungsional
